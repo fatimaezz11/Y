@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#08090e">
+    <title>GOTHAM CONFIDENTIAL // YASSINE</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap');
+
+        :root {
+            --night: #08090e;
+            --panel: #10131b;
+            --red: #ed233f;
+            --gold: #c8a66a;
+            --paper: #eae4da;
+            --muted: #858993;
+            --line: #ffffff1c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--night);
+        }
+
+        body {
+            margin: 0;
+            background: var(--night);
+            color: var(--paper);
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        ::selection {
+            background: var(--red);
+            color: white;
+        }
+
+        #rain {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            opacity: .27;
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            z-index: 11;
+            pointer-events: none;
+            opacity: .055;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 23px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            z-index: 12;
+            border-bottom: 1px solid #ffffff13;
+        }
+
+        .brand {
+            font-size: 10px;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        .brand b {
+            color: var(--red);
+        }
+
+        .header-status {
+            color: var(--gold);
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+
+        .hero {
+            min-height: 100svh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 120px 8% 55px;
+            isolation: isolate;
+            background:
+                radial-gradient(ellipse at 76% 28%, #24304375 0%, transparent 34%),
+                linear-gradient(180deg, #121724 0%, #0c101a 45%, #08090e 100%);
+        }
+
+        .city {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: .85;
+        }
+
+        .hero-shade {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background:
+                linear-gradient(90deg, #08090ee8 0%, #08090e90 47%, transparent 100%),
+                linear-gradient(0deg, #08090e 0%, transparent 50%, #08090e45 100%);
+        }
+
+        .signal {
+            position: absolute;
+            top: 15%;
+            right: 8%;
+            width: min(43vw, 430px);
+            aspect-ratio: 1;
+            opacity: .72;
+            animation: signalPulse 5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes signalPulse {
+
+            0%,
+            100% {
+                opacity: .55;
+            }
+
+            50% {
+                opacity: .95;
+            }
+        }
+
+        .signal svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .hero-copy {
+            max-width: 850px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .overline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--red);
+            font-size: 9px;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+        }
+
+        .overline::before {
+            content: "";
+            width: 32px;
+            height: 1px;
+            background: var(--red);
+        }
+
+        .hero h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
+            font-size: clamp(86px, 17vw, 190px);
+            font-weight: 800;
+            line-height: .73;
+            letter-spacing: -3px;
+            margin: 0;
+        }
+
+        .hero h1 .first {
+            display: block;
+            color: #f0e9df;
+        }
+
+        .hero h1 .second {
+            display: block;
+            margin-top: 16px;
+            color: var(--red);
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .hero-name {
+            margin-top: 30px;
+            font-size: 13px;
+            letter-spacing: 8px;
+            color: var(--gold);
+        }
+
+        .hero-desc {
+            max-width: 360px;
+            margin-top: 25px;
+            color: #b5b6bd;
+            font-size: 11px;
+            line-height: 2.1;
+        }
+
+        .hero-bottom {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 65px;
+            border-top: 1px solid var(--line);
+            padding-top: 18px;
+            color: #838894;
+            font-size: 8px;
+            letter-spacing: 1.5px;
+        }
+
+        .scroll-cue {
+            color: var(--gold);
+        }
+
+        .section {
+            padding: 110px 8%;
+            position: relative;
+        }
+
+        .section-inner {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--red);
+            margin-bottom: 24px;
+        }
+
+        .section-heading {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(53px, 8vw, 100px);
+            text-transform: uppercase;
+            line-height: .9;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .section-heading em {
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: none;
+            font-weight: 400;
+        }
+
+        .briefing {
+            background: #0b0c11;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .briefing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.05fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .case-file {
+            border: 1px solid #c8a66a55;
+            background:
+                linear-gradient(135deg, #c8a66a0b, transparent 70%),
+                #101117;
+            padding: 30px;
+            position: relative;
+            transform: rotate(-1deg);
+            box-shadow: 12px 15px 0 #0005;
+        }
+
+        .file-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ffffff20;
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+
+        .stamp {
+            border: 2px solid var(--red);
+            color: var(--red);
+            padding: 5px 8px;
+            transform: rotate(-8deg);
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .file-number {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 72px;
+            font-weight: 800;
+            color: #ffffff0e;
+            line-height: 1;
+            margin-top: 23px;
+        }
+
+        .file-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid #ffffff14;
+            font-size: 9px;
+        }
+
+        .file-row span:first-child {
+            color: var(--muted);
+        }
+
+        .file-row span:last-child {
+            color: var(--gold);
+        }
+
+        .file-footer {
+            margin-top: 25px;
+            color: var(--red);
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+        .briefing-copy {
+            padding-top: 8px;
+        }
+
+        .briefing-copy p {
+            color: #aaaeb8;
+            font-size: 12px;
+            line-height: 2.1;
+            margin-top: 27px;
+        }
+
+        .briefing-copy strong {
+            color: var(--paper);
+        }
+
+        .small-line {
+            margin-top: 30px;
+            color: var(--gold);
+            font-size: 9px;
+            letter-spacing: 2px;
+            line-height: 2;
+        }
+
+        .unlock-section {
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 0%, #4a101a30, transparent 50%),
+                #090a0f;
+        }
+
+        .unlock-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 42px;
+        }
+
+        .step-count {
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+
+        .progress {
+            height: 2px;
+            width: 100%;
+            background: #ffffff12;
+            margin-top: 25px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--red);
+            transition: width .6s ease;
+        }
+
+        .clues {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .clue {
+            min-height: 200px;
+            padding: 23px;
+            background: #11131a;
+            border: 1px solid #ffffff19;
+            color: var(--paper);
+            text-align: left;
+            transition: .3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clue:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+        }
+
+        .clue.unlocked {
+            border-color: #c8a66a99;
+            background: linear-gradient(145deg, #c8a66a10, #11131a);
+        }
+
+        .clue-number {
+            font-size: 9px;
+            color: var(--red);
+            letter-spacing: 2px;
+        }
+
+        .clue-icon {
+            font-size: 29px;
+            margin: 24px 0 18px;
+        }
+
+        .clue h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .clue p {
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        .clue .lock {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            color: var(--gold);
+        }
+
+        .clue:disabled {
+            cursor: default;
+            opacity: .65;
+        }
+
+        .clue.unlocked:disabled {
+            opacity: 1;
+        }
+
+        .clue-feedback {
+            margin-top: 25px;
+            padding: 20px 22px;
+            border-left: 2px solid var(--red);
+            background: #ffffff05;
+            color: #c0bdc0;
+            font-size: 11px;
+            line-height: 2;
+            min-height: 65px;
+        }
+
+        .letter-section {
+            background: #e5ded2;
+            color: #15130f;
+        }
+
+        .letter-layout {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: 55px;
+            align-items: start;
+        }
+
+        .letter-intro {
+            position: sticky;
+            top: 40px;
+        }
+
+        .letter-intro .section-tag {
+            color: #9b1828;
+        }
+
+        .letter-intro .section-heading {
+            font-size: clamp(55px, 8vw, 93px);
+        }
+
+        .letter-intro p {
+            margin-top: 22px;
+            font-size: 11px;
+            line-height: 2;
+            color: #5e5850;
+        }
+
+        .letter-paper {
+            padding: clamp(26px, 5vw, 55px);
+            background: #f4eee4;
+            border: 1px solid #b4a791;
+            box-shadow: 9px 11px 0 #19140d12;
+            position: relative;
+        }
+
+        .letter-paper::before {
+            content: "PERSONAL & CONFIDENTIAL";
+            display: block;
+            padding-bottom: 17px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #c9bead;
+            color: #9b1828;
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+        .letter-paper p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(22px, 3vw, 29px);
+            line-height: 1.8;
+        }
+
+        .letter-paper .red {
+            color: #9b1828;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .letter-paper .gold {
+            font-size: clamp(31px, 4vw, 46px);
+            font-weight: 600;
+            color: #8c1524;
+            line-height: 1.2;
+        }
+
+        .letter-signature {
+            margin-top: 30px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 25px;
+        }
+
+        .invitation {
+            text-align: center;
+            background:
+                radial-gradient(ellipse at 50% 100%, #5c101b2c, transparent 50%),
+                #090a0f;
+        }
+
+        .invitation .section-inner {
+            max-width: 780px;
+        }
+
+        .invitation .section-heading {
+            margin-bottom: 23px;
+        }
+
+        .invitation-desc {
+            max-width: 420px;
+            margin: 0 auto;
+            font-size: 11px;
+            line-height: 2.1;
+            color: var(--muted);
+        }
+
+        .date-console {
+            margin: 45px auto 0;
+            padding: clamp(24px, 5vw, 45px);
+            max-width: 580px;
+            text-align: left;
+            background: #101117;
+            border: 1px solid #ffffff24;
+            position: relative;
+        }
+
+        .date-console::before {
+            content: "";
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 75px;
+            height: 2px;
+            background: var(--red);
+        }
+
+        .console-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--line);
+            font-size: 9px;
+            letter-spacing: 1px;
+            color: var(--gold);
+        }
+
+        .field {
+            margin-top: 24px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 10px;
+            color: #a5a6af;
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+        .field select,
+        .field input {
+            width: 100%;
+            border-radius: 0;
+            background: #090a0e;
+            color: var(--paper);
+            border: 1px solid #ffffff25;
+            padding: 15px;
+            outline: none;
+        }
+
+        .field select:focus,
+        .field input:focus {
+            border-color: var(--gold);
+        }
+
+        .field option {
+            background: #101117;
+        }
+
+        .cta {
+            margin-top: 27px;
+            width: 100%;
+            border: 0;
+            background: var(--red);
+            color: white;
+            padding: 19px 15px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: .25s;
+        }
+
+        .cta:hover {
+            background: #ff304e;
+            box-shadow: 0 0 35px #ed233f35;
+        }
+
+        #accepted {
+            display: none;
+            margin-top: 25px;
+            padding: 22px;
+            background: #c8a66a0a;
+            border: 1px solid #c8a66a66;
+            text-align: center;
+        }
+
+        #accepted h3 {
+            color: var(--gold);
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
+            font-size: 34px;
+        }
+
+        #accepted p {
+            margin-top: 12px;
+            font-size: 11px;
+            line-height: 2;
+            color: #c5bdba;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 25px 7%;
+            border-top: 1px solid var(--line);
+            color: #777b84;
+            font-size: 8px;
+            letter-spacing: 2px;
+        }
+
+        footer span:last-child {
+            color: var(--red);
+        }
+
+        @media (max-width: 720px) {
+            .hero {
+                padding-left: 6%;
+                padding-right: 6%;
+            }
+
+            .signal {
+                width: 65vw;
+                right: -13%;
+                top: 20%;
+            }
+
+            .hero h1 {
+                font-size: clamp(82px, 19vw, 135px);
+            }
+
+            .hero-desc {
+                max-width: 290px;
+            }
+
+            .briefing-grid,
+            .letter-layout {
+                grid-template-columns: 1fr;
+                gap: 38px;
+            }
+
+            .letter-intro {
+                position: static;
+            }
+
+            .clues {
+                grid-template-columns: 1fr;
+            }
+
+            .clue {
+                min-height: 145px;
+                display: grid;
+                grid-template-columns: 40px 1fr;
+                column-gap: 15px;
+                align-items: center;
+            }
+
+            .clue-icon {
+                grid-row: span 2;
+                margin: 0;
+            }
+
+            .clue p {
+                grid-column: 2;
+            }
+
+            .section {
+                padding: 80px 6%;
+            }
+
+            .case-file {
+                max-width: 500px;
+            }
+
+            header {
+                padding: 19px 6%;
+            }
+
+            .header-status {
+                font-size: 8px;
+            }
+
+            .hero-bottom {
+                margin-top: 50px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .brand {
+                font-size: 9px;
+                letter-spacing: 1px;
+            }
+
+            .header-status {
+                font-size: 7px;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .hero-name {
+                letter-spacing: 5px;
+            }
+
+            .hero-bottom {
+                font-size: 7px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="rain" aria-hidden="true"></canvas>
+    <div class="grain"></div>
+
+    <header>
+        <div class="brand">GOTHAM <b>///</b> CONFIDENTIAL</div>
+        <div class="header-status">CASE FILE: Y-3000</div>
+    </header>
+
+    <!-- OPENING: GOTHAM AT NIGHT -->
+    <section class="hero" id="top">
+
+        <svg class="city" viewBox="0 0 1440 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+                <linearGradient id="building" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#283247" />
+                    <stop offset="1" stop-color="#0a0d14" />
+                </linearGradient>
+                <pattern id="windows" width="24" height="35" patternUnits="userSpaceOnUse">
+                    <rect x="6" y="7" width="5" height="9" fill="#c8a66a" opacity=".35" />
+                    <rect x="16" y="7" width="4" height="9" fill="#9fb3d4" opacity=".2" />
+                </pattern>
+            </defs>
+
+            <g fill="url(#building)" stroke="#47516a" stroke-width="1">
+                <path d="M0 440 L90 440 L90 310 L120 280 L150 310 L150 440
+      L205 440 L205 250 L250 250 L250 440 L300 440 L300 340
+      L355 340 L355 440 L400 440 L400 210 L430 165 L460 210
+      L460 440 L510 440 L510 310 L570 310 L570 440 L630 440
+      L630 265 L660 230 L690 265 L690 440 L750 440 L750 335
+      L800 335 L800 440 L845 440 L845 190 L885 130 L925 190
+      L925 440 L980 440 L980 280 L1030 280 L1030 440
+      L1080 440 L1080 320 L1130 320 L1130 440 L1190 440
+      L1190 230 L1220 195 L1250 230 L1250 440 L1300 440
+      L1300 290 L1350 290 L1350 440 L1440 440 L1440 1000
+      L0 1000 Z" />
+            </g>
+
+            <g fill="url(#windows)">
+                <path d="M0 440 L90 440 L90 310 L120 280 L150 310 L150 440
+      L205 440 L205 250 L250 250 L250 440 L300 440 L300 340
+      L355 340 L355 440 L400 440 L400 210 L430 165 L460 210
+      L460 440 L510 440 L510 310 L570 310 L570 440 L630 440
+      L630 265 L660 230 L690 265 L690 440 L750 440 L750 335
+      L800 335 L800 440 L845 440 L845 190 L885 130 L925 190
+      L925 440 L980 440 L980 280 L1030 280 L1030 440
+      L1080 440 L1080 320 L1130 320 L1130 440 L1190 440
+      L1190 230 L1220 195 L1250 230 L1250 440 L1300 440
+      L1300 290 L1350 290 L1350 440 L1440 440 L1440 1000
+      L0 1000 Z" />
+            </g>
+
+            <path d="M0 500 Q300 450 600 500 T1200 490 T1440 500" stroke="#a5b6d4" opacity=".14" fill="none"
+                stroke-width="2" />
+        </svg>
+
+        <div class="hero-shade"></div>
+
+        <div class="signal" aria-hidden="true">
+            <svg viewBox="0 0 400 400">
+                <defs>
+                    <radialGradient id="beam">
+                        <stop offset="0" stop-color="#ed233f" stop-opacity=".22" />
+                        <stop offset=".6" stop-color="#ed233f" stop-opacity=".08" />
+                        <stop offset="1" stop-color="#ed233f" stop-opacity="0" />
+                    </radialGradient>
+                </defs>
+                <circle cx="200" cy="200" r="190" fill="url(#beam)" />
+                <circle cx="200" cy="200" r="133" fill="none" stroke="#ed233f" stroke-opacity=".13" />
+                <circle cx="200" cy="200" r="103" fill="none" stroke="#ed233f" stroke-opacity=".22"
+                    stroke-dasharray="3 9" />
+                <path d="M200 154
+        C178 132 148 125 119 135
+        L130 167 L75 148 L94 195 L59 185
+        L80 224 L136 204 L154 236
+        L179 215 L200 244 L221 215
+        L246 236 L264 204 L320 224
+        L341 185 L306 195 L325 148
+        L270 167 L281 135
+        C252 125 222 132 200 154Z" fill="#ed233f" fill-opacity=".88" />
+            </svg>
+        </div>
+
+        <div class="hero-copy">
+            <div class="overline">Transmission intercepted // 00:00</div>
+
+            <h1>
+                <span class="first">MY</span>
+                <span class="second">BATMAN.</span>
+            </h1>
+
+            <div class="hero-name">Y A S S I N E</div>
+
+            <p class="hero-desc">
+                I know what you're thinking: <em>'Wait, she never makes a move!'</em>
+                I don't even know why I'm doing this, so don't even ask!
+                But take it as a collector's item because it’s the first and last time
+            </p>
+        </div>
+
+        <div class="hero-bottom">
+            <span>GOTHAM CITY · NIGHT SHIFT</span>
+            <a class="scroll-cue" href="#briefing">SCROLL TO DECRYPT ↓</a>
+        </div>
+    </section>
+
+    <!-- CLASSIFIED FILE -->
+    <section class="section briefing" id="briefing">
+        <div class="section-inner briefing-grid">
+
+            <div class="case-file">
+                <div class="file-top">
+                    <span>WAYNE // PERSONAL ARCHIVES</span>
+                    <span class="stamp">TOP SECRET</span>
+                </div>
+
+                <div class="file-number">Y-3000</div>
+
+                <div class="file-row">
+                    <span>SUBJECT</span>
+                    <span>YASSINE</span>
+                </div>
+
+                <div class="file-row">
+                    <span>KNOWN ALIAS</span>
+                    <span>MY BATMAN</span>
+                </div>
+
+                <div class="file-row">
+                    <span>MISSION TYPE</span>
+                    <span>ROMANTIC</span>
+                </div>
+
+                <div class="file-row">
+                    <span>THREAT LEVEL</span>
+                    <span>IRRESISTIBLE</span>
+                </div>
+
+                <div class="file-row">
+                    <span>AUTHORIZED BY</span>
+                    <span>YOUR FAVORITE GIRL</span>
+                </div>
+
+                <div class="file-footer">NO ONE ELSE NEEDS TO KNOW.</div>
+            </div>
+
+            <div class="briefing-copy">
+                <div class="section-tag">01 / MISSION BRIEFING</div>
+
+                <h2 class="section-heading">
+                    Gotham<br>
+                    can <em>wait.</em>
+                </h2>
+
+                <p>
+                    Dear Yassine,<br><br>
+                    Something more important than saving the world
+                    has just landed on your desk.
+                    It's a message from your favorite girl.
+                    And this time, Batman, there is no villain to catch
+                    and no universe to save.
+                    <br><br>
+                    There's just <strong>one date</strong> waiting to happen.
+                    But first, you need to unlock your mission.
+                </p>
+
+                <div class="small-line">
+                    OBJECTIVE: QUALITY TIME<br>
+                    PRIORITY: US TWO ONLY
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE LETTER -->
+    <section class="section letter-section" id="letter">
+        <div class="section-inner letter-layout">
+
+            <div class="letter-intro">
+                <div class="section-tag">03 / AFTER HOURS</div>
+
+                <h2 class="section-heading">
+                    No<br>
+                    more<br>
+                    <em>noise.</em>
+                </h2>
+
+                <p>
+                    A little honesty from your favorite girl.
+                    No superheroes required.
+                </p>
+            </div>
+
+            <div class="letter-paper">
+                <p>
+                    <strong>Yassine, my Batman,</strong><br><br>
+
+                    No arguing. No fighting. No talking about your neighborhood. Just me and you, my Batman.<br><br>
+
+                    I want a little peace, a little laughter,
+                    your attention, and a moment where it's just
+                    you and me. No distractions. No unnecessary drama.
+                    Just us, enjoying each other's company.
+                    <br><br>
+
+                    I don't need you to save the universe.
+                    I don't need a Batmobile or a superhero's life.
+                    I just want to spend a little time with you.
+                    <br><br>
+
+                    And because I know you love your superheroes,
+                    I saved the most important line for last.
+                    <br><br>
+
+                    <span class="red">I LOVE YOU 3000.</span><br><br>
+
+                    In every universe, in every timeline,
+                    you're still my Batman.
+                    <br><br>
+
+                    So, Yassine... will you take me on a date?
+                </p>
+
+                <div class="letter-signature">
+                    Your favorite girl. ❤️
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- THE INVITATION -->
+    <section class="section invitation" id="date-section">
+        <div class="section-inner">
+
+            <div class="section-tag">04 / FINAL TRANSMISSION</div>
+
+            <h2 class="section-heading">
+                One night.<br>
+                <em>Just us.</em>
+            </h2>
+
+            <p class="invitation-desc">
+                Your mission is simple: choose our adventure
+                and tell me when you're free.
+                I'll bring the love. You bring yourself, Batman.
+            </p>
+
+            <div class="date-console">
+
+                <div class="console-head">
+                    <span>GOTHAM DATE PROTOCOL</span>
+                    <span>READY</span>
+                </div>
+
+                <div class="field">
+                    <label for="activity">SELECT THE ADVENTURE</label>
+                    <select id="activity">
+                        <option value="A romantic dinner">A romantic dinner</option>
+                        <option value="Coffee and long conversations">Coffee & long conversations</option>
+                        <option value="A movie night">A movie night</option>
+                        <option value="A Marvel movie date">A Marvel movie date</option>
+                        <option value="A late evening walk">A late evening walk</option>
+                        <option value="A surprise date">Surprise me, Batman</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="date">PROPOSED DATE</label>
+                    <input type="date" id="date">
+                </div>
+
+                <div class="field">
+                    <label for="note">A MESSAGE FOR YOUR GIRL (OPTIONAL)</label>
+                    <input type="text" id="note" maxlength="180" placeholder="Tell me something, Batman...">
+                </div>
+
+                <button class="cta" onclick="acceptDate()">
+                    ACCEPT THE MISSION ↗
+                </button>
+
+                <div id="accepted" aria-live="polite">
+                    <h3>MISSION ACCEPTED.</h3>
+                    <p>
+                        Gotham can wait, Yassine.<br>
+                        Your favorite girl loves you 3000. ❤️
+                    </p>
+                    <p>
+                        Your WhatsApp message is ready.
+                        Send it to confirm your date together.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <span>GOTHAM CONFIDENTIAL // END OF FILE</span>
+        <span>MADE FOR YASSINE, WITH LOVE ♥</span>
+    </footer>
+
+    <script>
+        // Animated rain, drawn locally without external image files.
+        const canvas = document.getElementById('rain');
+        const ctx = canvas.getContext('2d');
+        let drops = [];
+        let rainWidth = 0;
+        let rainHeight = 0;
+        let frame = 0;
+
+        function resizeRain() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            rainWidth = window.innerWidth;
+            rainHeight = window.innerHeight;
+
+            canvas.width = rainWidth * dpr;
+            canvas.height = rainHeight * dpr;
+            canvas.style.width = rainWidth + 'px';
+            canvas.style.height = rainHeight + 'px';
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            const amount = Math.min(180, Math.floor(rainWidth / 5));
+
+            drops = Array.from({ length: amount }, () => ({
+                x: Math.random() * rainWidth,
+                y: Math.random() * rainHeight,
+                length: 8 + Math.random() * 19,
+                speed: 5 + Math.random() * 8
+            }));
+        }
+
+        function drawRain() {
+            frame++;
+
+            ctx.clearRect(0, 0, rainWidth, rainHeight);
+            ctx.strokeStyle = '#a6bad5';
+            ctx.lineWidth = .7;
+
+            for (const drop of drops) {
+                ctx.globalAlpha = .12 + Math.random() * .25;
+                ctx.beginPath();
+                ctx.moveTo(drop.x, drop.y);
+                ctx.lineTo(drop.x - 2, drop.y + drop.length);
+                ctx.stroke();
+
+                drop.y += drop.speed;
+                drop.x -= .7;
+
+                if (drop.y > rainHeight) {
+                    drop.y = -drop.length;
+                    drop.x = Math.random() * rainWidth;
+                }
+
+                if (drop.x < 0) drop.x = rainWidth;
+            }
+
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(drawRain);
+        }
+
+        resizeRain();
+        drawRain();
+        window.addEventListener('resize', resizeRain);
+
+        function acceptDate() {
+            const activity = document.getElementById('activity').value;
+            const dateValue = document.getElementById('date').value;
+            const note = document.getElementById('note').value.trim();
+
+            const formattedDate = dateValue
+                ? new Date(dateValue + 'T12:00:00').toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                })
+                : 'We will choose the date together';
+
+            const message =
+                'GOTHAM CONFIDENTIAL // MISSION ACCEPTED 🦇❤️\n\n' +
+                'Yassine, my Batman,\n\n' +
+                'Our date plan:\n' +
+                'Adventure: ' + activity + '\n' +
+                'Date: ' + formattedDate + '\n' +
+                (note ? 'A message for you: ' + note + '\n\n' : '\n') +
+                'No arguing. No fighting. No talking about your neighborhood.\n' +
+                'Just me and you, my Batman. ❤️\n\n' +
+                'I LOVE YOU 3000.\n' +
+                'From your favorite girl. 🖤';
+
+            const accepted = document.getElementById('accepted');
+            accepted.style.display = 'block';
+
+            accepted.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest'
+            });
+
+            const url = 'https://wa.me/?text=' + encodeURIComponent(message);
+
+            const whatsappButton = document.querySelector('.cta');
+            whatsappButton.textContent = 'OPEN WHATSAPP TO SEND ↗';
+            whatsappButton.onclick = () => window.open(
+                url,
+                '_blank',
+                'noopener,noreferrer'
+            );
+        }
+    </script>
+
+</body>
+
+</html>
